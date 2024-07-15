@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="jumbotron text-center">
+  <div class="alert alert-success">
+    <h1 class="alert-heading text-success">Welcome to the Ustruck's Home Inventory App!</h1>
+    <p class="lead text-black">Manage the inventory with ease and efficiency.</p>
+    <hr class="my-4">
+    {% if current_user.is_authenticated %}
+      <p>Welcome back {{ current_user.username }}! Let's find some stuff!</p>
+      <a class="btn btn-info btn-lg" href="{{ url_for('view_items') }}" role="button">View Items</a>
+    {% else %}
+      <a class="btn btn-primary btn-lg" href="{{ url_for('auth.login') }}" role="button">Login</a>
+      <a class="btn btn-danger btn-lg" href="{{ url_for('auth.register') }}" role="button">Register</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

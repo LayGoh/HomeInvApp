@@ -1,21 +1,38 @@
+edit_item.html:
+
 {% extends "base.html" %}
 {% block title %}Edit Item{% endblock %}
 {% block content %}
 <h1>Edit Item</h1>
 <form method="POST" action="" class="form">
   {{ form.hidden_tag() }}
-  <div class="form-group">
+  <!-- Edit Name -->
+   <div class="form-group">
     {{ form.name.label(class="form-label") }}<br>
     {{ form.name(class="form-control", size=32, placeholder="What is the name of the item?") }}
   </div>
+  <!-- Edit Description -->
   <div class="form-group">
     {{ form.description.label(class="form-label") }}<br>
     {{ form.description(class="form-control", size=32, placeholder="Anything specific about this item?") }}
   </div>
+  <!-- Edit Location -->
   <div class="form-group">
     {{ form.location.label(class="form-label") }}<br>
-    {{ form.location(class="form-control", size=32, placeholder="What room is this in?") }}
+    <div class="dropdown">
+      <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+        Select Location
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        {% for loc in locations %}
+        <li><a class="dropdown-item" href="#" onclick="selectLocation('{{ loc }}')">{{ loc }}</a></li>
+        {% endfor %}
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="#" onclick="addNewLocation()">Add a New Location</a></li>
+      </ul>
+    {{ form.location(class="form-control", size=32, id="locationInput", placeholder="What room is this in?") }}
   </div>
+  <!-- Edit Notes -->
   <div class="form-group">
     {{ form.notes.label(class="form-label") }}<br>
     {{ form.notes(class="form-control", placeholder="Where in the room is this item?") }}
@@ -24,4 +41,15 @@
     {{ form.submit(class="btn btn-primary") }}
   </div>
 </form>
+
+<script>
+  function selectLocation(location) {
+    document.getElementById('locationInput').value = location;
+  }
+
+  function addNewLocation() {
+    document.getElementById('locationInput').value = '';
+    document.getElementById('locationInput').focus();
+  }
+</script>
 {% endblock %}

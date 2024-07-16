@@ -41,7 +41,7 @@ def register():
         username = form.username.data.lower()
         password = form.password.data
         security_question = form.security_question.data
-        security_answer = form.security_answer.data
+        security_answer = form.security_answer.data.lower()
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256', salt_length=16)
         if User.query.filter_by(username=username).first():
             flash('Username already exists', 'danger')
@@ -92,8 +92,8 @@ def reset_password(user_id):
 def reset_user_password(user_id):
     form = AdminResetPasswordForm
     user = User.query.get_or_404(user_id)
-    new_password = generate_password_hash('defaultpassword', method='pbkdf2:sha256', salt_length=16)
+    new_password = generate_password_hash('Avery', method='pbkdf2:sha256', salt_length=16)
     user.password = new_password
     db.session.commit()
-    flash('User password reset to "defaultpassword"', 'success')
+    flash('User password reset to "Avery"', 'success')
     return redirect(url_for('admin'))

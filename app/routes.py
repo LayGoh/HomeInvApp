@@ -28,17 +28,23 @@ def toggle_admin(user_id):
     flash('User admin status updated successfully!', 'success')
     return redirect(url_for('admin'))
 
-# Home route
+# Home
 @app.route('/')
 def home():
     return render_template('home.html')
 
-# Add item route
+# Get distinct locations
+def get_distinct_locations():
+    locations = Item.query.with_entities(Item.location).distinct().all()
+    return [loc[0] for loc in locations]
+
+# Add item
 @app.route('/add', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def add_item():
     form = ItemForm()
+    locations = get_distinct_locations()
     if form.validate_on_submit():
         item = Item(
             name=form.name.data,
@@ -50,9 +56,27 @@ def add_item():
         db.session.commit()
         flash('Item added successfully!', 'success')
         return redirect(url_for('add_item'))
-    return render_template('add_item.html', form=form)
+    return render_template('add_item.html', form=form, locations=locations)
 
-# View items route
+# Edit item
+@app.route('/edit/<int:item_id>', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def edit_item(item_id):
+    item = Item.query.get_or_404(item_id)
+    form = ItemForm(obj=item)
+    locations = get_distinct_locations()
+    if form.validate_on_submit():
+        item.name = form.name.data
+        item.description = form.description.data
+        item.location = form.location.data
+        item.notes = form.notes.data
+        db.session.commit()
+        flash('Item updated successfully!', 'success')
+        return redirect(url_for('view_items'))
+    return render_template('edit_item.html', form=form, locations=locations)
+
+# View items
 @app.route('/items', methods=['GET', 'POST'])
 @login_required
 def view_items():
@@ -72,7 +96,7 @@ def view_items():
     items = items_query.all()
     return render_template('view_items.html', items=items, form=form, sort_by=sort_by, sort_order=sort_order)
 
-# Delete item route
+# Delete item
 @app.route('/delete/<int:item_id>', methods=['POST'])
 @login_required
 @admin_required
@@ -83,24 +107,7 @@ def delete_item(item_id):
     flash('Item deleted successfully!', 'success')
     return redirect(url_for('view_items'))
 
-# Edit item route
-@app.route('/edit/<int:item_id>', methods=['GET', 'POST'])
-@login_required
-@admin_required
-def edit_item(item_id):
-    item = Item.query.get_or_404(item_id)
-    form = ItemForm(obj=item)
-    if form.validate_on_submit():
-        item.name = form.name.data
-        item.description = form.description.data
-        item.location = form.location.data
-        item.notes = form.notes.data
-        db.session.commit()
-        flash('Item updated successfully!', 'success')
-        return redirect(url_for('view_items'))
-    return render_template('edit_item.html', form=form)
-
-# Export items route
+# Export items
 @app.route('/export', methods=['GET'])
 @login_required
 @admin_required
@@ -117,3 +124,17 @@ def export_items():
     output.headers["Content-Disposition"] = f"attachment; filename={filename}"
     output.headers["Content-type"] = "text/csv"
     return output
+
+# Delete user account
+@app.route('/delete_user/<int:user_id>', methods=['POST'])
+@login_required
+@admin_required
+def delete_user(user_id):
+    user = User.query.get_or_404(user_id)
+    if user.username == 'admin':
+        flash('Primary admin cannot be deleted!', 'danger')
+        return redirect(url_for('admin'))
+    db.session.delete(user)
+    db.session.commit()
+    flash('User deleted successfully!', 'success')
+    return redirect(url_for('admin'))

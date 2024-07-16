@@ -1,16 +1,6 @@
 from app import db
 from flask_login import UserMixin
 
-# Item model
-class Item(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.String(200), nullable=True)
-    location = db.Column(db.String(100), nullable=False)
-    notes = db.Column(db.String, nullable=True)
-    
-    def __repr__(self):
-        return f'<Item {self.name}>'
 
 # User model
 class User(UserMixin, db.Model):
@@ -23,3 +13,14 @@ class User(UserMixin, db.Model):
     
     def __repr__(self):
         return f'<User {self.username}>'
+
+# Item model
+class Item(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(200), nullable=True)
+    location = db.Column(db.String(100), nullable=False)
+    notes = db.Column(db.String, nullable=True)
+    
+    def __repr__(self):
+        return f'<Item {self.name}>'

@@ -26,3 +26,10 @@ app.register_blueprint(auth_bp, url_prefix='/auth')
 @login_manager.user_loader
 def load_user(user_id):
     return models.User.query.get(int(user_id))
+
+# Capitalize the first letter on Home Page
+@app.template_filter('capitalize_first')
+def capitalize_first(s):
+    return s.capitalize()
+
+app.jinja_env.filters['capitalize_first'] = capitalize_first

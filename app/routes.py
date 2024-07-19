@@ -87,7 +87,7 @@ def view_items():
     if form.validate_on_submit():
         search_query = form.search.data
     items_query = Item.query.filter(
-        (Item.name.contains(search_query)) | (Item.location.contains(search_query)) | (Item.description.contains(search_query))
+        (Item.name.contains(search_query)) | (Item.location.contains(search_query)) | (Item.description.contains(search_query)) | (Item.notes.contains(search_query))
     )
     if sort_order == 'asc':
         items_query = items_query.order_by(getattr(Item, sort_by).asc())

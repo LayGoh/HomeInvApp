@@ -7,7 +7,13 @@
     <p class="lead text-black">Manage this mess with ease and efficiency.</p>
     <hr class="my-4">
     {% if current_user.is_authenticated %}
-      <p>Welcome back <strong>{{ current_user.username | capitalize_first }}</strong>! Go find what you're looking for!</p>
+      <p>Welcome back <strong>
+        {% if current_user.username == 'hu' %}
+          {{ "Avery's Mom" | capitalize_first }}
+        {% else %}
+          {{ current_user.username | capitalize_first }}
+        {% endif %}
+      </strong>! Go find what you're looking for!</p>
       <a class="btn btn-success btn-lg" href="{{ url_for('view_items') }}" role="button">View Items</a>
     {% else %}
       <a class="btn btn-primary btn-lg" href="{{ url_for('auth.login') }}" role="button">Login</a>

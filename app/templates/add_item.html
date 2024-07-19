@@ -18,7 +18,7 @@
   <div class="form-group">
     {{ form.location.label(class="form-label") }}<br>
     <div class="dropdown">
-      <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="flase">
+      <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
         Select Location
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -42,7 +42,6 @@
   </div>
 </form>
 <a href="{{ url_for('view_items') }}" class="btn btn-secondary mt-3">Go Back</a>
-
 <script>
   function selectLocation(location) {
     document.getElementById('locationInput').value = location;

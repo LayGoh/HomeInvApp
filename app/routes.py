@@ -138,3 +138,4 @@ def delete_user(user_id):
     db.session.commit()
     flash('User deleted successfully!', 'success')
     return redirect(url_for('admin'))
+

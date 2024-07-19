@@ -1,0 +1,14 @@
+# Ignore virtual environment
+venv/
+# Ignore instance folder (contains the SQLite database)
+instance/
+# Ignore migrations folder
+migrations/
+# Ignore compiled files
+*.pyc
+*.pyo
+__pycache__/
+# Ignore environment variables file
+.env
+# Ignore system-specific files
+.DS_Store

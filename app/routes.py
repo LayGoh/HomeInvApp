@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request, send_file, make_response
+from flask import render_template, flash, redirect, url_for, request, send_file, make_response, jsonify
 from app import app, db
 from flask_login import login_user, logout_user, login_required, current_user
 from app.forms import ItemForm, SearchForm
@@ -33,10 +33,18 @@ def toggle_admin(user_id):
 def home():
     return render_template('home.html')
 
-# Get distinct locations
+# Get distinct Locations
 def get_distinct_locations():
     locations = Item.query.with_entities(Item.location).distinct().all()
     return [loc[0] for loc in locations]
+
+# Get distinct Notes
+@app.route('/get_notes/<location>', methods=['GET'])
+@login_required
+def get_notes(location):
+    notes = Item.query.filter_by(location=location).with_entities(Item.notes).distinct().all()
+    notes_list = [note[0] for note in notes if note[0]]
+    return jsonify(notes_list)
 
 # Add item
 @app.route('/add', methods=['GET', 'POST'])

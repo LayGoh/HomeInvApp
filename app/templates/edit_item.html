@@ -1,5 +1,3 @@
-edit_item.html:
-
 {% extends "base.html" %}
 {% block title %}Edit Item{% endblock %}
 {% block content %}
@@ -35,6 +33,16 @@ edit_item.html:
   <!-- Edit Notes -->
   <div class="form-group">
     {{ form.notes.label(class="form-label") }}<br>
+    <div class="dropdown">
+      <button class="btn btn-info dropdown-toggle" type="button" id="notesDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
+        Select Notes
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="notesDropdownButton" id="notesDropdownMenu">
+        <!-- Notes will be populated here -->
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="#" onclick="addNewNote()">Add a New Note</a></li>
+      </ul>
+    </div>
     {{ form.notes(class="form-control", placeholder="Where in the room is this item?") }}
   </div>
   <!-- Custom Submit Button for Edit -->
@@ -49,11 +57,46 @@ edit_item.html:
 <script>
   function selectLocation(location) {
     document.getElementById('locationInput').value = location;
+    updateNotesDropdown();
   }
 
   function addNewLocation() {
     document.getElementById('locationInput').value = '';
     document.getElementById('locationInput').focus();
+    updateNotesDropdown();
+  }
+
+  function updateNotesDropdown() {
+    const location = document.getElementById('locationInput').value;
+    if (location) {
+      fetch(`/get_notes/${location}`)
+        .then(response => response.json())
+        .then(notes => {
+          const notesDropdownMenu = document.getElementById('notesDropdownMenu');
+          notesDropdownMenu.innerHTML = '';
+          notes.forEach(note => {
+            const noteItem = document.createElement('li');
+            noteItem.innerHTML = `<a class="dropdown-item" href="#" onclick="selectNote('${note}')">${note}</a>`;
+            notesDropdownMenu.appendChild(noteItem);
+          });
+          // Add the divider and new note option
+          const divider = document.createElement('li');
+          divider.innerHTML = '<hr class="dropdown-divider">';
+          notesDropdownMenu.appendChild(divider);
+          const newNoteOption = document.createElement('li');
+          newNoteOption.innerHTML = '<a class="dropdown-item" href="#" onclick="addNewNote()">Add a New Note</a>';
+          notesDropdownMenu.appendChild(newNoteOption);
+        });
+    }
+  }
+
+  function selectNote(note) {
+    document.getElementById('notesInput').value = note;
+  }
+
+  function addNewNote() {
+    document.getElementById('notesInput').value = '';
+    document.getElementById('notesInput').focus();
   }
 </script>
 {% endblock %}

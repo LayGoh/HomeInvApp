@@ -37,9 +37,14 @@ edit_item.html:
     {{ form.notes.label(class="form-label") }}<br>
     {{ form.notes(class="form-control", placeholder="Where in the room is this item?") }}
   </div>
+  <!-- Custom Submit Button for Edit -->
   <div class="form-group">
-    {{ form.submit(class="btn btn-primary") }}
+    <button type="submit" class="btn btn-primary">Submit Changes</button>
   </div>
+</form>
+
+<a href="{{ url_for('view_items') }}" class="btn btn-secondary mt-2">Cancel</a>
+
 </form>
 <script>
   function selectLocation(location) {

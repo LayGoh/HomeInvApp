@@ -14,12 +14,12 @@ input::placeholder, textarea::placeholder {
   font-size: 16px;
 }
 
-.replace-text {
+.resupply-text {
   font-style: italic;
   color: red;
 }
 
-.replace-icon {
+.resupply-icon {
   width: 26px;
   height: 26px;
   margin-right: 5px;

@@ -11,10 +11,19 @@
     </div>
   </form>
   <div class="d-flex justify-content-between" style="margin-bottom: 10px">
-    <a href="{{ url_for('add_item') }}" class="btn btn-primary btn-sm" style="--bs-btn-bg: #ffffff; --bs-btn-color: #229ae0;">Add Item</a>
-    <a href="{{ url_for('export_items') }}" class="btn btn-success btn-sm opacity-50" style="--bs-btn-bg: #ffffff; --bs-btn-color: #155724;">Export to CSV</a>
-  </div>
-  <table class="table table-striped table-bordered">
+    <a href="{{ url_for('add_item') }}" class="btn btn-primary btn-sm" style="--bs-btn-bg: #1987543f; --bs-btn-color: #0d0dfd;">Add Item</a>
+    <div>
+        <!-- Export Shopping List -->
+        <a href="{{ url_for('export_items', resupply='true') }}" class="btn btn-outline-warning btn-sm" style="--bs-btn-bg: #1987543f">
+          <img src="{{ url_for('static', filename='cart4.svg') }}" alt="Cart Icon" class="cart-icon" style="width: 20px; height: 20px;">
+        </a>
+        <!-- Export Dataset to CSV -->
+        <a href="{{ url_for('export_items') }}" class="btn btn-success btn-sm opacity-50" style="--bs-btn-bg: #1987543f;">
+          <img src="{{ url_for('static', filename='file-earmark-excel.svg') }}" alt="Export Icon" class="export-icon" style="width: 20px; height: 20px;">
+        </a>
+    </div>
+</div>
+  <table class="table table-success table-striped table-bordered">
     <thead class="table-success">
       <tr>
         <th>
@@ -72,17 +81,17 @@
       {% for item in items %}
       <tr>
         <td>
-          {% if 'Replace' in item.notes %}
+          {% if 'Resupply' in item.notes %}
             <!-- Reference the SVG stored in the static folder -->
-            <img src="{{ url_for('static', filename='bag-fill.svg') }}" alt="Replace Icon" class="replace-icon">
+            <img src="{{ url_for('static', filename='bag-fill.svg') }}" alt="Resupply Icon" class="resupply-icon">
           {% endif %}
           {{ item.name }}
         </td>
         <td>{{ item.description }}</td>
         <td>{{ item.location }}</td>
         <td>
-          {% if 'Replace' in item.notes %}
-            <span class="replace-text">Replace</span>
+          {% if 'Resupply' in item.notes %}
+            <span class="resupply-text">Resupply</span>
           {% else %}
             {{ item.notes }}
           {% endif %}
@@ -92,7 +101,7 @@
           <form method="POST" action="{{ url_for('delete_item', item_id=item.id) }}" style="display: inline;" onsubmit="return confirmDelete();"> <!-- onsubmit buttion added to trigger confirmDelete function-->
             <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
           </form>
-<button class="btn btn-outline-warning btn-sm" onclick="toggleReplace({{ item.id }}, '{{ item.notes }}')">Replace</button>
+<button class="btn btn-outline-warning btn-sm" onclick="toggleResupply({{ item.id }}, '{{ item.notes }}')">Resupply</button>
         </td>
       </tr>
       {% endfor %}
@@ -100,37 +109,37 @@
   </table>
 
   <script>
-    function toggleReplace(item_id, currentNotes) {
-      const replaceTag = 'Replace';
-      let newNotes = currentNotes;
-  
-      // Check if 'Replace' is already in the notes
-      if (currentNotes.includes(replaceTag)) {
-        // Remove 'Replace' from notes
-        newNotes = currentNotes.replace(replaceTag, '').trim();
-      } else {
-        // Append 'Replace' to notes
-        newNotes = `${currentNotes} ${replaceTag}`.trim();
-      }
-  
-      // Send AJAX request to update notes
-      fetch(`/toggle_replace/${item_id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ notes: newNotes }),
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          location.reload();
+    function toggleResupply(item_id, currentNotes) {
+        const resupplyTag = 'Resupply';
+        let newNotes = currentNotes;
+
+        // Check if 'Resupply' is already in the notes
+        if (currentNotes.includes(resupplyTag)) {
+            // Remove 'Resupply' from notes
+            newNotes = currentNotes.replace(resupplyTag, '').trim();
         } else {
-          alert('Error updating item');
+            // Append 'Resupply' to notes
+            newNotes = `${currentNotes} ${resupplyTag}`.trim();
         }
-      });
+
+        // Send AJAX request to update notes
+        fetch(`/toggle_resupply/${item_id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ notes: newNotes })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload(); // Reload the page to reflect changes
+            } else {
+                alert('Error updating item');
+            }
+        });
     }
-  </script>
+</script>
 
 <!-- Not ready to implement QR Code Scanner
 <script>

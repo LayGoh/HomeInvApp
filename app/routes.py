@@ -84,14 +84,23 @@ def edit_item(item_id):
         return redirect(url_for('view_items'))
     return render_template('edit_item.html', form=form, locations=locations)
 
-# Replace Button
-@app.route('/toggle_replace/<int:item_id>', methods=['POST'])
+# Resupply Button
+@app.route('/toggle_resupply/<int:item_id>', methods=['POST'])
 @login_required
 @admin_required
-def toggle_replace(item_id):
+def toggle_resupply(item_id):
     item = Item.query.get_or_404(item_id)
     data = request.get_json()
-    item.notes = data['notes']
+    resupply_tag = 'Resupply'
+    notes = item.notes.split()
+    
+    # Check if 'Resupply' is already in the notes
+    if resupply_tag in notes:
+        notes.remove(resupply_tag)  # Remove 'Resupply' from notes
+    else:
+        notes.append(resupply_tag)  # Append 'Resupply' to notes
+    
+    item.notes = ' '.join(notes).strip()  # Update the item's notes
     db.session.commit()
     return jsonify({'success': True})
 
@@ -131,18 +140,28 @@ def delete_item(item_id):
 @login_required
 @admin_required
 def export_items():
-    items = Item.query.all()
+    filter_resupply = request.args.get('resupply', 'false').lower() == 'true'
+
+    items_query = Item.query
+    if filter_resupply:
+        items_query = items_query.filter(Item.notes.contains('resupply'))
+
+    items = items_query.all()
+
+    # Export to CSV
     si = StringIO()
     cw = csv.writer(si)
     cw.writerow(['ID', 'Name', 'Description', 'Location', 'Notes'])
     for item in items:
         cw.writerow([item.id, item.name, item.description, item.location, item.notes])
+
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"inventory_{timestamp}.csv"
     output = make_response(si.getvalue())
     output.headers["Content-Disposition"] = f"attachment; filename={filename}"
     output.headers["Content-type"] = "text/csv"
     return output
+
 
 # Delete user account
 @app.route('/delete_user/<int:user_id>', methods=['POST'])

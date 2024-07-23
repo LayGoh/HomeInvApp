@@ -84,6 +84,17 @@ def edit_item(item_id):
         return redirect(url_for('view_items'))
     return render_template('edit_item.html', form=form, locations=locations)
 
+# Replace Button
+@app.route('/toggle_replace/<int:item_id>', methods=['POST'])
+@login_required
+@admin_required
+def toggle_replace(item_id):
+    item = Item.query.get_or_404(item_id)
+    data = request.get_json()
+    item.notes = data['notes']
+    db.session.commit()
+    return jsonify({'success': True})
+
 # View items
 @app.route('/items', methods=['GET', 'POST'])
 @login_required

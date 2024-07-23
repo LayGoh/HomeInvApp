@@ -71,20 +71,66 @@
     <tbody>
       {% for item in items %}
       <tr>
-        <td>{{ item.name }}</td>
+        <td>
+          {% if 'Replace' in item.notes %}
+            <!-- Reference the SVG stored in the static folder -->
+            <img src="{{ url_for('static', filename='bag-fill.svg') }}" alt="Replace Icon" class="replace-icon">
+          {% endif %}
+          {{ item.name }}
+        </td>
         <td>{{ item.description }}</td>
         <td>{{ item.location }}</td>
-        <td>{{ item.notes }}</td>
+        <td>
+          {% if 'Replace' in item.notes %}
+            <span class="replace-text">Replace</span>
+          {% else %}
+            {{ item.notes }}
+          {% endif %}
+        </td>
         <td>
           <a href="{{ url_for('edit_item', item_id=item.id) }}" class="btn btn-outline-info btn-sm">Edit</a>
           <form method="POST" action="{{ url_for('delete_item', item_id=item.id) }}" style="display: inline;" onsubmit="return confirmDelete();"> <!-- onsubmit buttion added to trigger confirmDelete function-->
             <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
           </form>
+<button class="btn btn-outline-warning btn-sm" onclick="toggleReplace({{ item.id }}, '{{ item.notes }}')">Replace</button>
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
+
+  <script>
+    function toggleReplace(item_id, currentNotes) {
+      const replaceTag = 'Replace';
+      let newNotes = currentNotes;
+  
+      // Check if 'Replace' is already in the notes
+      if (currentNotes.includes(replaceTag)) {
+        // Remove 'Replace' from notes
+        newNotes = currentNotes.replace(replaceTag, '').trim();
+      } else {
+        // Append 'Replace' to notes
+        newNotes = `${currentNotes} ${replaceTag}`.trim();
+      }
+  
+      // Send AJAX request to update notes
+      fetch(`/toggle_replace/${item_id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ notes: newNotes }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          location.reload();
+        } else {
+          alert('Error updating item');
+        }
+      });
+    }
+  </script>
 
 <!-- Not ready to implement QR Code Scanner
 <script>

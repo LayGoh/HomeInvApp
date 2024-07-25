@@ -8,7 +8,15 @@ h1 {
   margin-top: 1em;
 }
 
-/* All Placeholders in Italics */
+.table-responsive {
+  overflow-x: auto;
+  margin-bottom: 15px;
+}
+
+.table {
+  min-width: 500px;
+}
+
 input::placeholder, textarea::placeholder {
   font-style: italic;
   font-size: 16px;

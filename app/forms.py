@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired, Length
 # Adding Items
 class ItemForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
-    description = StringField('Description')
+    keywords = StringField('Keywords')
     location = StringField('Location', validators=[DataRequired()])
     notes = StringField('Notes')
     submit = SubmitField('Add Item')

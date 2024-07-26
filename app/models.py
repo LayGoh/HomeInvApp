@@ -18,7 +18,7 @@ class User(UserMixin, db.Model):
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.String(200), nullable=True)
+    keywords = db.Column(db.String(200), nullable=True)
     location = db.Column(db.String(100), nullable=False)
     notes = db.Column(db.String, nullable=True)
     

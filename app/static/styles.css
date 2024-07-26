@@ -1,20 +1,86 @@
-body {
+body, .navbar {
   background: linear-gradient(to right, #42aa5a 0%, #71db88 100%);
-  font-family: Arial, sans-serif;
+}
+
+.navbar-brand {
+  margin: 2px;
+  padding: 2px;
+}
+
+#icon {
+  width: 40%;
+  height: auto;
+}
+
+body {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+#bgHome {
+  background: linear-gradient(to right, #42aa5a 0%, #71db88 100%);
+}
+
+.alert {
+  border-radius: 15%;
 }
 
 h1 {
-  color: #04580b;
   margin-top: 1em;
+  text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #0a3622, 0 0 30px #49FF18, 0 0 40px #49FF18, 2px 2px 2px rgba(206,89,55,0);
+  color: #198754;
+  background: #D1E7DD;
 }
 
-.table-responsive {
+h2 {
+  margin-top: 1em;
+  text-align: center;
+  text-shadow: 0 0 15px #fff, 0 0 50px #d1e7dd, 0 0 35px #fff, 0 0 20px #198754, 0 0 30px #d1e7dd, 0 0 40px #d1e7dd, 2px 2px 2px rgba(206,89,55,0);
+  color: #198754;
+  font-weight: bolder;
+}
+
+h3 {
+  margin-top: 2em;
+}
+
+.table-container {
+  display: flex;
+  max-height: 80vh;
+  overflow-y: auto;
   overflow-x: auto;
-  margin-bottom: 15px;
+  position: relative;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .table {
-  min-width: 500px;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table tbody td {
+  font-size: 13px;
+  padding: 10px;
+  border: 1px solid #198754;
+}
+
+.actions-column {
+  width: 120px;
+}
+
+.actions-column .btn {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.actions-column .btn:last-child {
+  margin-bottom: 0;
 }
 
 input::placeholder, textarea::placeholder {
@@ -31,4 +97,169 @@ input::placeholder, textarea::placeholder {
   width: 26px;
   height: 26px;
   margin-right: 5px;
+}
+
+#btnEnter {
+    color: rgb(#D1E7DD, 255, 255);
+    font-size: 16px;
+    line-height: 16px; padding: 6px;
+    border-radius: 17px;
+    font-family: Georgia, serif;
+    font-weight: 700;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    background-image: linear-gradient(to right, #42aa5a 0%, #71db88 100%);
+    box-shadow: #0a3622 5px 5px 15px 5px; border: 2px solid #d1e7dd;
+    display: inline-block;}
+    #btnEnter:hover {
+    background: #0a3622; }
+    #btnEnter:active {
+    background: #0a3622;
+}
+
+#btnAddItem {
+  margin: 5px 2px 5px 10px;
+  color: #052c65;
+  font-size: 16px;
+  line-height: 16px; padding: 6px;
+  border-radius: 17px;
+  font-family: Georgia, serif;
+  font-weight: 700;
+  text-decoration: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  background-image: linear-gradient(to right, #0d6efd 0%, #cfe2ff 100%);
+  box-shadow: #0a3622 5px 5px 15px 5px; border: 2px solid #198754;
+  display: inline-block;}
+  #btnAddItem:hover {
+  background: #0d6efd; }
+  #btnAddItem:active {
+  background: #0a3622;
+}
+
+#btnCancel {
+  margin: 5px 2px 5px 10px;
+  color: #58151c;
+  font-size: 16px;
+  line-height: 16px; padding: 6px;
+  border-radius: 17px;
+  font-family: Georgia, serif;
+  font-weight: 700;
+  text-decoration: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  background-image: linear-gradient(to right, #2b2f32 0%, #e2e3e5 100%);
+  box-shadow: #0a3622 5px 5px 15px 5px; border: 2px solid #58151c;
+  display: inline-block;}
+  #btnCancel:hover {
+  background: #6c757d; }
+  #btnCancel:active {
+  background: #0a3622;
+}
+
+#btnEdit {
+  margin: auto;
+  color: #055160;
+  font-size: 12px;
+  line-height: 12px; padding: 6px;
+  border-radius: 17px;
+  font-family: Georgia, serif;
+  font-weight: 700;
+  text-decoration: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  background-image: linear-gradient(to right, #0dcaf0 0%, #cff4fc 100%);
+  box-shadow: #055160 2px 2px 12px 2px; border: 2px solid #0dcaf0;
+  display: inline-block;}
+  #btnEdit:hover {
+  background: #0dcaf0; }
+  #btnEdit:active {
+  background: #0a3622;
+}
+
+#btnDelete {
+  margin: auto;
+  color: #58151c;
+  font-size: 12px;
+  line-height: 12px; padding: 6px;
+  border-radius: 17px;
+  font-family: Georgia, serif;
+  font-weight: 700;
+  text-decoration: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  background-image: linear-gradient(to right, #dc3545 0%, #f8d7da 100%);
+  box-shadow: #58151c 2px 2px 12px 2px; border: 2px solid #58151c;
+  display: inline-block;}
+  #btnDelete:hover {
+  background: #dc3545; }
+  #btnDelete:active {
+  background: #0a3622;
+}
+
+#btnResupply {
+  margin: auto;
+  color: #664d03;
+  font-size: 12px;
+  line-height: 12px; padding: 6px;
+  border-radius: 17px;
+  font-family: Georgia, serif;
+  font-weight: 700;
+  text-decoration: none;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  background-image: linear-gradient(to right, #ffc107 0%, #f8d7da 100%);
+  box-shadow: #664d03 5px 5px 15px 5px; border: 2px solid #664d03;
+  display: inline-block;}
+  #btnResupply:hover {
+  background: #ffc107; }
+  #btnResupply:active {
+  background: #0a3622;
+}
+
+#btnCart {
+  color: rgb(#D1E7DD, 255, 255);
+    font-size: 16px;
+    line-height: 16px; padding: 6px;
+    border-radius: 17px;
+    font-family: Georgia, serif;
+    font-weight: 700;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    background-image: linear-gradient(to right, #42aa5a 0%, #71db88 100%);
+    box-shadow: #0a3622 5px 5px 15px 5px; border: 2px solid #d1e7dd;
+    display: inline-block;}
+    #btnCart:hover {
+    background: #42aa5a; }
+    #btnCart:active {
+    background: #0a3622;
+}
+
+#btnCSV {
+  color: rgb(#D1E7DD, 255, 255);
+    font-size: 16px;
+    line-height: 16px; padding: 6px;
+    border-radius: 17px;
+    font-family: Georgia, serif;
+    font-weight: 700;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    background-image: linear-gradient(to right, #42aa5a 0%, #71db88 100%);
+    box-shadow: #0a3622 5px 5px 15px 5px; border: 2px solid #d1e7dd;
+    display: inline-block;}
+    #btnCSV:hover {
+    background: #42aa5a; }
+    #btnCSV:active {
+    background: #0a3622;
 }

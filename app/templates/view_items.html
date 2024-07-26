@@ -3,111 +3,115 @@
 {% block title %}View Items{% endblock %}
 
 {% block content %}
-<h1 class="mb-4">Current Inventory</h1>
-  <form method="GET" action="{{ url_for('view_items') }}" class="mb-4">
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="Search for items" name="search" value="{{ request.args.get('search', '') }}">
-      <button class="btn btn-primary" type="submit">Search</button>
-    </div>
-  </form>
-  <div class="d-flex justify-content-between" style="margin-bottom: 10px">
-    <a href="{{ url_for('add_item') }}" class="btn btn-primary btn-sm" style="--bs-btn-bg: #1987543f; --bs-btn-color: #0d0dfd;">Add Item</a>
-    <div>
-        <!-- Export Shopping List -->
-        <a href="{{ url_for('export_items', resupply='true') }}" class="btn btn-outline-warning btn-sm" style="--bs-btn-bg: #1987543f">
-          <img src="{{ url_for('static', filename='cart4.svg') }}" alt="Cart Icon" class="cart-icon" style="width: 20px; height: 20px;">
-        </a>
-        <!-- Export Dataset to CSV -->
-        <a href="{{ url_for('export_items') }}" class="btn btn-success btn-sm opacity-50" style="--bs-btn-bg: #1987543f;">
-          <img src="{{ url_for('static', filename='file-earmark-excel.svg') }}" alt="Export Icon" class="export-icon" style="width: 20px; height: 20px;">
-        </a>
-    </div>
-</div>
-<div class="table-responsive">
-  <table class="table table-success table-striped table-bordered">
-    <thead class="table-success">
-      <tr>
-        <th>
-          <a href="{{ url_for('view_items', search=request.args.get('search', ''), sort_by='name', sort_order='asc' if sort_order == 'desc' or sort_by != 'name' else 'desc') }}">
-            Name
-            {% if sort_by == 'name' %}
-              {% if sort_order == 'asc' %}
-                ↑
-              {% else %}
-                ↓
-              {% endif %}
-            {% endif %}
+<div class="container-fluid">
+  <h2 class="mb-4">Current Inventory</h2>
+    <form method="GET" action="{{ url_for('view_items') }}" class="mb-4">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search for items" name="search" value="{{ request.args.get('search', '') }}">
+        <button class="btn btn-primary" type="submit">Search</button>
+      </div>
+    </form>
+    <div class="d-flex justify-content-between" style="margin-bottom: 10px">
+      <a class="btn btn-primary btn-sm" id="btnAddItem" href="{{ url_for('add_item') }}">Add Item</a>
+      <div>
+          <!-- Export Shopping List -->
+          <a href="{{ url_for('export_items', resupply='true') }}" class="btn btn-outline-warning btn-sm" id="btnCart" style="--bs-btn-bg: #1987543f;">
+            <img src="{{ url_for('static', filename='cart4.svg') }}" alt="Cart Icon" class="cart-icon" style="width: 20px; height: 20px;">
           </a>
-        </th>
-        <th>
-          <a href="{{ url_for('view_items', search=request.args.get('search', ''), sort_by='description', sort_order='asc' if sort_order == 'desc' or sort_by != 'description' else 'desc') }}">
-            Description
-            {% if sort_by == 'description' %}
-              {% if sort_order == 'asc' %}
-                ↑
-              {% else %}
-                ↓
-              {% endif %}
-            {% endif %}
+          <!-- Export Dataset to CSV -->
+          <a href="{{ url_for('export_items') }}" class="btn btn-success btn-sm" id="btnCSV" style="--bs-btn-bg: #1987543f;">
+            <img src="{{ url_for('static', filename='file-earmark-excel.svg') }}" alt="Export Icon" class="export-icon" style="width: 20px; height: 20px;">
           </a>
-        </th>
-        <th>
-          <a href="{{ url_for('view_items', search=request.args.get('search', ''), sort_by='location', sort_order='asc' if sort_order == 'desc' or sort_by != 'location' else 'desc') }}">
-            Location
-            {% if sort_by == 'location' %}
-              {% if sort_order == 'asc' %}
-                ↑
-              {% else %}
-                ↓
+      </div>
+  </div>
+  <div class="table-container">
+    <table class="table table-success table-striped table-bordered">
+      <thead class="table-success">
+        <tr>
+          <th>
+            <a href="{{ url_for('view_items', search=request.args.get('search', ''), sort_by='name', sort_order='asc' if sort_order == 'desc' or sort_by != 'name' else 'desc') }}">
+              Name
+              {% if sort_by == 'name' %}
+                {% if sort_order == 'asc' %}
+                  ↑
+                {% else %}
+                  ↓
+                {% endif %}
               {% endif %}
-            {% endif %}
-          </a>
-        </th>
-        <th>
-          <a href="{{ url_for('view_items', search=request.args.get('search', ''), sort_by='notes', sort_order='asc' if sort_order == 'desc' or sort_by != 'notes' else 'desc') }}">
-            Notes
-            {% if sort_by == 'notes' %}
-              {% if sort_order == 'asc' %}
-                ↑
-              {% else %}
-                ↓
+            </a>
+          </th>
+          <th>
+            <a href="{{ url_for('view_items', search=request.args.get('search', ''), sort_by='keywords', sort_order='asc' if sort_order == 'desc' or sort_by != 'keywords' else 'desc') }}">
+              Keywords
+              {% if sort_by == 'keywords' %}
+                {% if sort_order == 'asc' %}
+                  ↑
+                {% else %}
+                  ↓
+                {% endif %}
               {% endif %}
+            </a>
+          </th>
+          <th>
+            <a href="{{ url_for('view_items', search=request.args.get('search', ''), sort_by='location', sort_order='asc' if sort_order == 'desc' or sort_by != 'location' else 'desc') }}">
+              Location
+              {% if sort_by == 'location' %}
+                {% if sort_order == 'asc' %}
+                  ↑
+                {% else %}
+                  ↓
+                {% endif %}
+              {% endif %}
+            </a>
+          </th>
+          <th>
+            <a href="{{ url_for('view_items', search=request.args.get('search', ''), sort_by='notes', sort_order='asc' if sort_order == 'desc' or sort_by != 'notes' else 'desc') }}">
+              Notes
+              {% if sort_by == 'notes' %}
+                {% if sort_order == 'asc' %}
+                  ↑
+                {% else %}
+                  ↓
+                {% endif %}
+              {% endif %}
+            </a>
+          </th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td>
+            {% if 'Resupply' in item.notes %}
+              <!-- Reference the SVG stored in the static folder -->
+              <img src="{{ url_for('static', filename='bag-fill.svg') }}" alt="Resupply Icon" class="resupply-icon">
             {% endif %}
-          </a>
-        </th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in items %}
-      <tr>
-        <td>
-          {% if 'Resupply' in item.notes %}
-            <!-- Reference the SVG stored in the static folder -->
-            <img src="{{ url_for('static', filename='bag-fill.svg') }}" alt="Resupply Icon" class="resupply-icon">
-          {% endif %}
-          {{ item.name }}
-        </td>
-        <td>{{ item.description }}</td>
-        <td>{{ item.location }}</td>
-        <td>
-          {% if 'Resupply' in item.notes %}
-            <span class="resupply-text">Resupply</span>
-          {% else %}
-            {{ item.notes }}
-          {% endif %}
-        </td>
-        <td>
-          <a href="{{ url_for('edit_item', item_id=item.id) }}" class="btn btn-outline-info btn-sm">Edit</a>
-          <form method="POST" action="{{ url_for('delete_item', item_id=item.id) }}" style="display: inline;" onsubmit="return confirmDelete();"> <!-- onsubmit buttion added to trigger confirmDelete function-->
-            <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
-          </form>
-<button class="btn btn-outline-warning btn-sm" onclick="toggleResupply({{ item.id }}, '{{ item.notes }}')">Resupply</button>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+            {{ item.name }}
+          </td>
+          <td>{{ item.keywords }}</td>
+          <td>{{ item.location }}</td>
+          <td>
+            {% if 'Resupply' in item.notes %}
+              <span class="resupply-text">Resupply</span>
+            {% else %}
+              {{ item.notes }}
+            {% endif %}
+          </td>
+          <td class="action-column">
+            <div class="d-flex flex-column align-items-center">
+              <a href="{{ url_for('edit_item', item_id=item.id) }}" class="btn btn-outline-info btn-sm" id="btnEdit">Edit</a>
+              <form method="POST" action="{{ url_for('delete_item', item_id=item.id) }}" style="display: inline;" onsubmit="return confirmDelete();"> <!-- onsubmit buttion added to trigger confirmDelete function-->
+                <button type="submit" class="btn btn-outline-danger btn-sm w-100" id="btnDelete">Delete</button>
+              </form>
+              <button class="btn btn-outline-warning btn-sm" id="btnResupply" onclick="toggleResupply({{ item.id }}, '{{ item.notes }}')">Resupply</button>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 
   <script>
@@ -154,7 +158,7 @@
 
   function onScanSuccess(decodedText, decodedResult) {
     console.log(`Code matched = ${decodedText}`, decodedResult);
-    const [name, description] = decodedText.split(',');
+    const [name, keywords] = decodedText.split(',');
     document.querySelector('[name="search"]').value = name;
     document.querySelector('form').submit();
     html5QrcodeScanner.clear();

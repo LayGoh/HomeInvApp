@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Add Item{% endblock %}
 {% block content %}
-<h1>Add Item</h1>
+<h2>Add Item</h2>
 <form method="POST" action="" class="form">
   {{ form.hidden_tag() }}
   <!-- Add Name -->
@@ -9,10 +9,10 @@
     {{ form.name.label(class="form-label") }}<br>
     {{ form.name(class="form-control", size=32, placeholder="What is the name of the item?") }}
   </div>
-  <!-- Add Description -->
+  <!-- Add Keywords -->
   <div class="form-group">
-    {{ form.description.label(class="form-label") }}<br>
-    {{ form.description(class="form-control", size=32, placeholder="Anything specific about this item?") }}
+    {{ form.keywords.label(class="form-label") }}<br>
+    {{ form.keywords(class="form-control", size=32, placeholder="Anything specific about this item?") }}
   </div>
   <!-- Add Location -->
   <div class="form-group">
@@ -48,10 +48,10 @@
   </div>
   <!-- Submit -->
   <div class="form-group">
-    {{ form.submit(class="btn btn-primary") }}
+    {{ form.submit(class="btn btn-primary", id="btnAddItem") }}
   </div>
 </form>
-<a href="{{ url_for('view_items') }}" class="btn btn-secondary mt-3">Go Back</a>
+<a href="{{ url_for('view_items') }}" class="btn btn-secondary mt-2" id="btnCancel">Cancel</a>
 <script>
   function selectLocation(location) {
     document.getElementById('locationInput').value = location;

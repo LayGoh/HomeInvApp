@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Edit Item{% endblock %}
 {% block content %}
-<h1>Edit Item</h1>
+<h2>Edit Item</h2>
 <form method="POST" action="" class="form">
   {{ form.hidden_tag() }}
   <!-- Edit Name -->
@@ -9,10 +9,10 @@
     {{ form.name.label(class="form-label") }}<br>
     {{ form.name(class="form-control", size=32, placeholder="What is the name of the item?") }}
   </div>
-  <!-- Edit Description -->
+  <!-- Edit Keywords -->
   <div class="form-group">
-    {{ form.description.label(class="form-label") }}<br>
-    {{ form.description(class="form-control", size=32, placeholder="Anything specific about this item?") }}
+    {{ form.keywords.label(class="form-label") }}<br>
+    {{ form.keywords(class="form-control", size=32, placeholder="Anything specific about this item?") }}
   </div>
   <!-- Edit Location -->
   <div class="form-group">

@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-<div class="jumbotron-custom text-center">
-  <div class="alert alert-success">
-    <h1 class="alert-heading text-success">Welcome to the Ustruck's Home Inventory App!</h1>
-    <p class="lead text-black">Manage this mess with ease and efficiency.</p>
+<div class="card text-center mx-auto p-3" id="bgHome" style="width: auto">
+  <div class="alert alert-success h-auto">
+    <h1 class="alert-heading text-success fw-bolder">Welcome to the Ustruck's Home Inventory App!</h1>
+    <h3 class="lead text-secondary fs-6">Manage this mess with ease and efficiency.</h3>
     <hr class="my-4">
     {% if current_user.is_authenticated %}
       <p>Welcome back <strong>
@@ -14,7 +14,7 @@
           {{ current_user.username | capitalize_first }}
         {% endif %}
       </strong>! Go find what you're looking for!</p>
-      <a class="btn btn-success btn-lg" href="{{ url_for('view_items') }}" role="button">View Items</a>
+      <a class="btn btn-success btn-lg" id="btnEnter" href="{{ url_for('view_items') }}" role="button">Enter</a>
     {% else %}
       <a class="btn btn-primary btn-lg" href="{{ url_for('auth.login') }}" role="button">Login</a>
       <a class="btn btn-danger btn-lg" href="{{ url_for('auth.register') }}" role="button">Register</a>

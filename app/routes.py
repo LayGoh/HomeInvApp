@@ -56,7 +56,7 @@ def add_item():
     if form.validate_on_submit():
         item = Item(
             name=form.name.data,
-            description=form.description.data,
+            keywords=form.keywords.data,
             location=form.location.data,
             notes=form.notes.data
         )
@@ -76,7 +76,7 @@ def edit_item(item_id):
     locations = get_distinct_locations()
     if form.validate_on_submit():
         item.name = form.name.data
-        item.description = form.description.data
+        item.keywords = form.keywords.data
         item.location = form.location.data
         item.notes = form.notes.data
         db.session.commit()
@@ -115,7 +115,7 @@ def view_items():
     if form.validate_on_submit():
         search_query = form.search.data
     items_query = Item.query.filter(
-        (Item.name.contains(search_query)) | (Item.location.contains(search_query)) | (Item.description.contains(search_query)) | (Item.notes.contains(search_query))
+        (Item.name.contains(search_query)) | (Item.location.contains(search_query)) | (Item.keywords.contains(search_query)) | (Item.notes.contains(search_query))
     )
     if sort_order == 'asc':
         items_query = items_query.order_by(getattr(Item, sort_by).asc())
@@ -151,9 +151,9 @@ def export_items():
     # Export to CSV
     si = StringIO()
     cw = csv.writer(si)
-    cw.writerow(['ID', 'Name', 'Description', 'Location', 'Notes'])
+    cw.writerow(['ID', 'Name', 'Keywords', 'Location', 'Notes'])
     for item in items:
-        cw.writerow([item.id, item.name, item.description, item.location, item.notes])
+        cw.writerow([item.id, item.name, item.keywords, item.location, item.notes])
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"inventory_{timestamp}.csv"

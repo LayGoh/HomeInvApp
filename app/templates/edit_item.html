@@ -12,7 +12,7 @@
   <!-- Edit Keywords -->
   <div class="form-group">
     {{ form.keywords.label(class="form-label") }}<br>
-    {{ form.keywords(class="form-control", size=32, placeholder="Anything specific about this item?") }}
+    {{ form.keywords(class="form-control", size=32, placeholder="Use keywords for categorizing.") }}
   </div>
   <!-- Edit Location -->
   <div class="form-group">
@@ -47,11 +47,11 @@
   </div>
   <!-- Custom Submit Button for Edit -->
   <div class="form-group">
-    <button type="submit" class="btn btn-primary" id=“btnAddItem”>Confirm Changes</button>
+    <button type="submit" class="btn btn-primary" id="btnAddItem">Confirm</button>
   </div>
 </form>
 
-<a href="{{ url_for('view_items') }}" class="btn btn-secondary mt-2" id=“btnCancel”>Cancel</a>
+<a href="{{ url_for('view_items') }}" class="btn btn-secondary mt-2" id="btnCancel">Cancel</a>
 
 </form>
 <script>

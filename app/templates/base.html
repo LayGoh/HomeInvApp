@@ -11,7 +11,7 @@
   <body>
     <nav class="navbar navbar-expand-sm">
       <a class="navbar-brand" href="{{ url_for('view_items') }}">
-        <img id=icon src="static/icon.png"></a>
+        <img id=icon src="{{ url_for('static', filename='icon.png') }}"></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

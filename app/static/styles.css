@@ -13,6 +13,7 @@ body, .navbar {
 }
 
 body {
+  /*font-family: "Comic Sans MS", cursive, sans-serif; */ /*Xmas Theme? */
   font-family: Arial, sans-serif;
 }
 
@@ -99,7 +100,7 @@ input::placeholder, textarea::placeholder {
   margin-right: 5px;
 }
 
-#btnEnter {
+#btnEnter, #btnLogin {
     color: rgb(#D1E7DD, 255, 255);
     font-size: 16px;
     line-height: 16px; padding: 6px;
@@ -113,9 +114,9 @@ input::placeholder, textarea::placeholder {
     background-image: linear-gradient(to right, #42aa5a 0%, #71db88 100%);
     box-shadow: #0a3622 5px 5px 15px 5px; border: 2px solid #d1e7dd;
     display: inline-block;}
-    #btnEnter:hover {
+    #btnEnter:hover, #btnLogin:hover {
     background: #0a3622; }
-    #btnEnter:active {
+    #btnEnter:active, #btnLogin:active {
     background: #0a3622;
 }
 
@@ -152,8 +153,8 @@ input::placeholder, textarea::placeholder {
   font-style: normal;
   font-variant: normal;
   text-transform: none;
-  background-image: linear-gradient(to right, #2b2f32 0%, #e2e3e5 100%);
-  box-shadow: #0a3622 5px 5px 15px 5px; border: 2px solid #58151c;
+  background-image: linear-gradient(to right, #dc3545 0%, #f8d7da 100%);
+  box-shadow: #0a3622 5px 5px 15px 5px; border: 2px solid #198754;
   display: inline-block;}
   #btnCancel:hover {
   background: #6c757d; }
@@ -161,11 +162,11 @@ input::placeholder, textarea::placeholder {
   background: #0a3622;
 }
 
-#btnEdit {
-  margin: auto;
+#btnEdit, #btnReset {
+  margin: 0 auto 5px auto;
   color: #055160;
   font-size: 12px;
-  line-height: 12px; padding: 6px;
+  line-height: 8px; padding: 2px;
   border-radius: 17px;
   font-family: Georgia, serif;
   font-weight: 700;
@@ -176,17 +177,17 @@ input::placeholder, textarea::placeholder {
   background-image: linear-gradient(to right, #0dcaf0 0%, #cff4fc 100%);
   box-shadow: #055160 2px 2px 12px 2px; border: 2px solid #0dcaf0;
   display: inline-block;}
-  #btnEdit:hover {
+  #btnEdit:hover, #btnReset:hover {
   background: #0dcaf0; }
-  #btnEdit:active {
+  #btnEdit:active, #btnReset:active {
   background: #0a3622;
 }
 
-#btnDelete {
-  margin: auto;
+#btnDelete, #btnRegister {
+  margin: 0 auto 5px auto;
   color: #58151c;
   font-size: 12px;
-  line-height: 12px; padding: 6px;
+  line-height: 8px; padding: 2px;
   border-radius: 17px;
   font-family: Georgia, serif;
   font-weight: 700;
@@ -195,19 +196,19 @@ input::placeholder, textarea::placeholder {
   font-variant: normal;
   text-transform: none;
   background-image: linear-gradient(to right, #dc3545 0%, #f8d7da 100%);
-  box-shadow: #58151c 2px 2px 12px 2px; border: 2px solid #58151c;
+  box-shadow: #58151c 3px 3px 13px 3px; border: 2px solid #dc3545;
   display: inline-block;}
-  #btnDelete:hover {
+  #btnDelete:hover, #btnRegister:hover {
   background: #dc3545; }
-  #btnDelete:active {
+  #btnDelete:active, #btnRegister:active {
   background: #0a3622;
 }
 
 #btnResupply {
-  margin: auto;
+  margin: 0 auto 5px auto;
   color: #664d03;
   font-size: 12px;
-  line-height: 12px; padding: 6px;
+  line-height: 8px; padding: 2px;
   border-radius: 17px;
   font-family: Georgia, serif;
   font-weight: 700;
@@ -216,7 +217,7 @@ input::placeholder, textarea::placeholder {
   font-variant: normal;
   text-transform: none;
   background-image: linear-gradient(to right, #ffc107 0%, #f8d7da 100%);
-  box-shadow: #664d03 5px 5px 15px 5px; border: 2px solid #664d03;
+  box-shadow: #664d03 5px 5px 15px 5px; border: 2px solid #ffc107;
   display: inline-block;}
   #btnResupply:hover {
   background: #ffc107; }
@@ -262,4 +263,42 @@ input::placeholder, textarea::placeholder {
     background: #42aa5a; }
     #btnCSV:active {
     background: #0a3622;
+}
+
+#btnLogin, #lnkRegister, #lnkFgtPwd {
+  margin: 1em;
+}
+
+.lblUser, .lblPass {
+  margin: auto auto 5px auto;
+  text-align: center;
+  text-shadow: 2px 8px 6px rgba(0,0,0,0.3), 0px -5px 35px rgba(255,255,255,0.5), 2px 2px 2px rgba(206,89,55,0), 2px 2px 0 #d1e7dd, 2px -2px 0 #d1e7dd, -2px 2px 0 #d1e7dd, -2px -2px 0 #d1e7dd, 2px 0px 0 #d1e7dd, 0px 2px 0 #d1e7dd, -2px 0px 0 #d1e7dd, 0px -2px 0 #d1e7dd, 2px 2px 2px rgba(206,89,55,0);;
+  color: #198754;
+  font-size: 18px;
+}
+
+.inputUsername, .inputPassword {
+  margin: auto;
+  width: 60%;
+  height: 35px;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ced4da;
+}
+
+.inputUsername:focus, .inputPassword:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+}
+
+#formLogin {
+  margin: auto;
+  padding: auto;
+  text-align: center;
+}
+
+#cardRegister {
+  background-image: linear-gradient(to right, #71db88 0%, #42aa5a 100%);
 }

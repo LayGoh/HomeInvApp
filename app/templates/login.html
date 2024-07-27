@@ -3,19 +3,21 @@
 {% block content %}
 <h2 class="p-4 text-success">Login to Access the Goods</h2>
 <hr>
-<form method="POST" action="" class="form">
-  <div class="form-group p-4 text-dark-emphasis bg-info-subtle border border-success-subtle rounded-5">
-    <label for="username" class="form-label">Username</label><br>
-    <input type="text" name="username" id="username" class="form-control" required>
-  </div>
-  <div style="margin-top: 20px" class="form-group p-4 text-dark-emphasis bg-info-subtle border border-success-subtle rounded-5">
-    <label for="password" class="form-label">Password</label><br>
-    <input type="password" name="password" id="password" class="form-control" required>
-  </div>
-  <div style="margin-top: 20px" class="form-group">
-    <button type="submit" class="btn btn-success text-light bg-primary border border-primary rounded-2">Login</button>
-  </div>
-</form>
-<p><a href="{{ url_for('auth.register') }}" class="text-danger bg-light">Register</a></p>
-<p><a href="{{ url_for('auth.forgot_password') }}" class="text-danger bg-light">Forgot Password</a></p>
+<div id="formLogin">
+  <form method="POST" action="" class="form">
+    <div class="form-group">
+      <label for="username" class="form-label lblUser">Username</label><br>
+      <input type="text" name="username" id="username" class="form-control inputUsername" required>
+    </div>
+    <div class="form-group" style="margin-top: 1px">
+      <label for="password" class="form-label lblPass">Password</label><br>
+      <input type="password" name="password" id="password" class="form-control inputPassword" required>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-success text-light-subtle" id="btnLogin">Login</button>
+    </div>
+  </form>
+  <p><a href="{{ url_for('auth.register') }}" class="link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" id="lnkRegister">Register</a></p>
+  <p><a href="{{ url_for('auth.forgot_password') }}" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" id="lnkFgtPwd">Forgot Password</a></p>
+</div>
 {% endblock %}

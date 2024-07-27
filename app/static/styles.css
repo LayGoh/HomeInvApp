@@ -13,7 +13,7 @@ body, .navbar {
 }
 
 body {
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 #bgHome {
@@ -45,7 +45,7 @@ h3 {
 
 .table-container {
   display: flex;
-  max-height: 80vh;
+  max-height: 45vh;
   overflow-y: auto;
   overflow-x: auto;
   position: relative;

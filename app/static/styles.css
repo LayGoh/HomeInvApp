@@ -302,3 +302,35 @@ input::placeholder, textarea::placeholder {
 #cardRegister {
   background-image: linear-gradient(to right, #71db88 0%, #42aa5a 100%);
 }
+
+.modal-content {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  border: 2px solid #198754;
+}
+
+.modal-header {
+  background-color: #198754;
+  color: white;
+  border-bottom: none;
+}
+
+.modal-body {
+  font-size: 1.2em;
+}
+
+.modal-footer {
+  border-top: none;
+}
+
+.modal-backdrop {
+  z-index: 1040 !important;
+}
+
+.modal {
+  z-index: 1050 !important;
+}
+
+.confetti-canvas {
+  z-index: 1060 !important;
+}

@@ -114,37 +114,47 @@
   </div>
 </div>
 
-  <script>
-    function toggleResupply(item_id, currentNotes) {
-        const resupplyTag = 'Resupply';
-        let newNotes = currentNotes;
+<script>
+  function toggleResupply(item_id, currentNotes) {
+      const resupplyTag = 'Resupply';
+      let newNotes = currentNotes;
 
-        // Check if 'Resupply' is already in the notes
-        if (currentNotes.includes(resupplyTag)) {
-            // Remove 'Resupply' from notes
-            newNotes = currentNotes.replace(resupplyTag, '').trim();
-        } else {
-            // Append 'Resupply' to notes
-            newNotes = `${currentNotes} ${resupplyTag}`.trim();
-        }
+      // Check if 'Resupply' is already in the notes
+      if (currentNotes.includes(resupplyTag)) {
+          // Remove 'Resupply' from notes
+          newNotes = currentNotes.replace(resupplyTag, '').trim();
+      } else {
+          // Append 'Resupply' to notes
+          newNotes = `${currentNotes} ${resupplyTag}`.trim();
+      }
 
-        // Send AJAX request to update notes
-        fetch(`/toggle_resupply/${item_id}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ notes: newNotes })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload(); // Reload the page to reflect changes
-            } else {
-                alert('Error updating item');
-            }
-        });
-    }
+      // Send AJAX request to update notes
+      fetch(`/toggle_resupply/${item_id}`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ notes: newNotes })
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              location.reload(); // Reload the page to reflect changes
+          } else {
+              alert('Error updating item');
+          }
+      });
+  }
+
+  window.onload = function() {
+      const milestones = [100, 150, 200, 250, 300, 350, 400, 450, 500];
+      const itemCount = {{ items_count }};
+      
+      if (milestones.includes(itemCount)) {
+          triggerConfetti();
+          showMilestoneModal(itemCount);
+      }
+  };
 </script>
 
 <!-- Not ready to implement QR Code Scanner

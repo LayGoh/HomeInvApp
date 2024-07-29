@@ -112,17 +112,26 @@ def view_items():
     search_query = request.args.get('search', '')
     sort_by = request.args.get('sort_by', 'name')
     sort_order = request.args.get('sort_order', 'asc')
+    
     if form.validate_on_submit():
         search_query = form.search.data
+
     items_query = Item.query.filter(
-        (Item.name.contains(search_query)) | (Item.location.contains(search_query)) | (Item.keywords.contains(search_query)) | (Item.notes.contains(search_query))
+        (Item.name.contains(search_query)) | 
+        (Item.location.contains(search_query)) | 
+        (Item.keywords.contains(search_query)) | 
+        (Item.notes.contains(search_query))
     )
+    
     if sort_order == 'asc':
         items_query = items_query.order_by(getattr(Item, sort_by).asc())
     else:
         items_query = items_query.order_by(getattr(Item, sort_by).desc())
+    
     items = items_query.all()
-    return render_template('view_items.html', items=items, form=form, sort_by=sort_by, sort_order=sort_order)
+    items_count = len(items)
+    
+    return render_template('view_items.html', items=items, form=form, sort_by=sort_by, sort_order=sort_order, items_count=items_count)
 
 # Delete item
 @app.route('/delete/<int:item_id>', methods=['POST'])
@@ -176,4 +185,3 @@ def delete_user(user_id):
     db.session.commit()
     flash('User deleted successfully!', 'success')
     return redirect(url_for('admin'))
-

@@ -45,8 +45,28 @@
       {% endwith %}
       {% block content %}{% endblock %}
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="milestoneModal" tabindex="-1" aria-labelledby="milestoneModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="milestoneModalLabel">Congratulations!</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  WooHoo! You just inventoried your <span id="milestoneCount"></span> item!
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+          </div>
+      </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <script>
       function confirmDelete() {
           return confirm("Are you sure you want to delete this item? This action cannot be undone.");
@@ -55,6 +75,40 @@
         $.post(`/toggle_admin/${userID}`, function() {
           location.reload();
         });
+      }
+      
+      function triggerConfetti() {
+          var duration = 2 * 1000;
+          var end = Date.now() + duration;
+
+          (function frame() {
+              confetti({
+                  particleCount: 50,
+                  angle: 60,
+                  spread: 55,
+                  drift: 1,
+                  origin: { x: 0 },
+                  zIndex: 1060
+              });
+              confetti({
+                  particleCount: 50,
+                  angle: 120,
+                  spread: 55,
+                  drift: -1,
+                  origin: { x: 1 },
+                  zIndex: 1060
+              });
+
+              if (Date.now() < end) {
+                  requestAnimationFrame(frame);
+              }
+          }());
+      }
+
+      function showMilestoneModal(count) {
+          document.getElementById('milestoneCount').innerText = count + 'th';
+          var milestoneModal = new bootstrap.Modal(document.getElementById('milestoneModal'), {});
+          milestoneModal.show();
       }
     </script>
   </body>

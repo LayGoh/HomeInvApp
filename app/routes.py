@@ -63,7 +63,7 @@ def add_item():
         db.session.add(item)
         db.session.commit()
         flash('Item added successfully!', 'success')
-        return redirect(url_for('add_item'))
+        return redirect(url_for('view_items'))
     return render_template('add_item.html', form=form, locations=locations)
 
 # Edit item

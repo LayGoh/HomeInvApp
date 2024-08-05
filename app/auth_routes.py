@@ -31,7 +31,7 @@ def login():
 def logout():
     logout_user()
     flash('Logged out successfully!', 'info')
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('home'))
 
 # Register route
 @auth_bp.route('/register', methods=['GET', 'POST'])

@@ -9,41 +9,145 @@
     <title>{% block title %}Inventory App{% endblock %}</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-sm">
-      <a class="navbar-brand" href="{{ url_for('view_items') }}">
-        <img id=icon src="{{ url_for('static', filename='icon.png') }}"></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-sm fixed-bottom pb-2">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <div class="navbar-nav w-100">
+            <div class="container text-center">
+              <div class="row row-cols-3 g-3">
+                {% if current_user.is_authenticated %}
+                  <div class="col">
+                    <a class="nav-link" href="{{ url_for('home') }}">
+                      <img src="{{ url_for('static', filename='home.webp') }}" alt="Home Icon" class="nav-icon">Home
+                    </a>
+                  </div>
+                  <div class="col">
+                    <a class="nav-link" href="{{ url_for('view_items') }}">
+                      <img src="{{ url_for('static', filename='viewInv.webp') }}" alt="View Items Icon" class="nav-icon">View Items
+                    </a>
+                  </div>
+                  {% if current_user.is_admin %}
+                    <div class="col">
+                      <button type="button" class="btn nav-link" data-bs-toggle="modal" data-bs-target="#addItemModal">
+                        <img src="{{ url_for('static', filename='addItem.webp') }}" alt="Add Item Icon" class="nav-icon">Add Item
+                      </button>
+                    </div>
+                    <div class="col">
+                      <a class="nav-link" href="{{ url_for('admin') }}">
+                        <img src="{{ url_for('static', filename='admin.webp') }}" alt="Admin Icon" class="nav-icon">Admin Panel
+                      </a>
+                    </div>
+                    <div class="col">
+                      <a class="nav-link" href="{{ url_for('export_items', resupply='true') }}">
+                        <img src="{{ url_for('static', filename='cart.webp') }}" alt="Cart Icon" class="nav-icon">Shopping List
+                      </a>
+                    </div>
+                    <div class="col">
+                      <a class="nav-link" href="{{ url_for('export_items') }}">
+                        <img src="{{ url_for('static', filename='csv.webp') }}" alt="Export Icon" class="nav-icon">Export to CSV
+                      </a>
+                    </div>
+                  {% endif %}
+                  <div class="col">
+                    <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+                  </div>
+                {% else %}
+                  <div class="col">
+                    <button type="button" class="btn nav-link2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                      <img src="{{ url_for('static', filename='logIn.webp') }}" alt="Log In Icon" class="nav-icon2"> Log In
+                    </button>
+                  </div>
+                  <div class="col">
+                    <button type="button" class="btn nav-link2" data-bs-toggle="modal" data-bs-target="#registerModal">
+                      <img src="{{ url_for('static', filename='register.webp') }}" alt="Register Icon" class="nav-icon2">New User
+                    </button>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
           {% if current_user.is_authenticated %}
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('view_items') }}">View Items</a></li>
-            {% if current_user.is_admin %}
-              <li class="nav-item"><a class="nav-link" href="{{ url_for('add_item') }}">Add Item</a></li>
-              <li class="nav-item"><a class="nav-link" href="{{ url_for('admin') }}">Admin Panel</a></li>
-            {% endif %}
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a></li>
-          {% else %}
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Login</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
+          <form class="d-flex ms-auto search-bar" action="{{ url_for('view_items') }}" method="GET" role="search">
+            <input class="form-control me-2" id="frmSearch" type="search" placeholder="Search" name="search" aria-label="Search">
+            <button class="btn btn-success" id="btnSearch" type="submit">Search</button>
+          </form>
           {% endif %}
-        </ul>
-        <form class="d-flex ms-auto" action="{{ url_for('view_items') }}" method="GET" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        </div>
       </div>
-    </nav>
+    </nav>    
+    
     <div class="container-fluid p-0">
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-          {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">{{ message }}</div>
-          {% endfor %}
+          <div class="flash-container">
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          </div>
         {% endif %}
       {% endwith %}
       {% block content %}{% endblock %}
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalLabel">Log In</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="loginModalBody">
+            <!-- Login form content will be loaded here -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="registerModalLabel">Register</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="registerModalBody">
+            <!-- Register form content will be loaded here -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Item Modal -->
+    <div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addItemModalLabel">Add Item</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="addItemModalBody">
+            <!-- Login form content will be loaded here -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Modal -->
@@ -76,6 +180,66 @@
           location.reload();
         });
       }
+
+      // JavaScript to load content into the modals dynamically
+      $(document).ready(function(){
+        // When the login modal is triggered, load the login form via AJAX
+        $('#loginModal').on('show.bs.modal', function (e) {
+          var modal = $(this);
+          $.ajax({
+            url: "{{ url_for('auth.login') }}",
+            method: "GET",
+            success: function(data) {
+              modal.find('.modal-body').html($(data).find('#formLogin'));
+            },
+            error: function() {
+              modal.find('.modal-body').html('<p>Error loading form. Please try again.</p>');
+            }
+          });
+        });
+
+        // When the register modal is triggered, load the register form via AJAX
+        $('#registerModal').on('show.bs.modal', function (e) {
+          var modal = $(this);
+          $.ajax({
+            url: "{{ url_for('auth.register') }}",
+            method: "GET",
+            success: function(data) {
+              modal.find('.modal-body').html($(data).find('form'));
+            },
+            error: function() {
+              modal.find('.modal-body').html('<p>Error loading form. Please try again.</p>');
+            }
+          });
+        });
+      });
+
+      // When the Add Item modal is triggered, load the login form via AJAX
+      $('#addItemModal').on('show.bs.modal', function (e) {
+            var modal = $(this);
+            $.ajax({
+                url: "{{ url_for('add_item') }}",
+                method: "GET",
+                success: function(data) {
+                    modal.find('.modal-body').html($(data).find('.formAdd'));
+                }
+            });
+        $(document).on('submit', '.formAdd', function(e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                method: form.attr('method'),
+                data: form.serialize(),
+                success: function(response) {
+                    if (response.success) {
+                        $('#addItemModal').modal('hide');
+                        window.location.reload();
+                    }
+                }
+            });
+        });
+      });
       
       function triggerConfetti() {
           var duration = 2 * 1000;
@@ -110,6 +274,13 @@
           var milestoneModal = new bootstrap.Modal(document.getElementById('milestoneModal'), {});
           milestoneModal.show();
       }
+
+      // Auto-close and fade out alerts after 2 seconds
+      window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+          $(this).remove();
+        });
+      }, 2000);
     </script>
   </body>
 </html>

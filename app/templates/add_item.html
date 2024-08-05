@@ -2,7 +2,7 @@
 {% block title %}Add Item{% endblock %}
 {% block content %}
 <h2>Add Item</h2>
-<form method="POST" action="" class="form">
+<form method="POST" action="{{ url_for('add_item') }}" class="formAdd">
   {{ form.hidden_tag() }}
   <!-- Add Name -->
   <div class="form-group">
